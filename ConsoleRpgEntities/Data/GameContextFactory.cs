@@ -10,7 +10,7 @@ namespace ConsoleRpgEntities.Data
         public GameContext CreateDbContext(string[] args)
         {
             // Build configuration
-            var configuration = ConfigurationHelper.GetConfiguration();
+            var configuration = ConfigurationHelper.GetConfiguration(Directory.GetCurrentDirectory());
 
             // Get connection string
             var connectionString = configuration.GetConnectionString("DefaultConnection");

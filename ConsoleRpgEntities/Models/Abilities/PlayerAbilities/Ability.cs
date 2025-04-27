@@ -6,11 +6,11 @@ namespace ConsoleRpgEntities.Models.Abilities.PlayerAbilities
     public abstract class Ability : IAbility
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public string AbilityType { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
+        public string AbilityType { get; set; } = string.Empty;
 
-        public virtual IEnumerable<Player> Players { get; set; }
+        public virtual IEnumerable<Player> Players { get; set; } = new List<Player>();
 
         protected Ability()
         {

@@ -6,8 +6,10 @@ namespace ConsoleRpgEntities.Helpers
 {
     public static class ConfigurationHelper
     {
-        public static IConfigurationRoot GetConfiguration(string basePath = null, string environmentName = null)
+        public static IConfigurationRoot GetConfiguration(string basePath)
         {
+            var environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development";
+
             basePath ??= Directory.GetCurrentDirectory();
 
             var builder = new ConfigurationBuilder()

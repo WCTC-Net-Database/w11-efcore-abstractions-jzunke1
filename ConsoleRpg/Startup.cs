@@ -16,7 +16,7 @@ public static class Startup
     public static void ConfigureServices(IServiceCollection services)
     {
         // Build configuration
-        var configuration = ConfigurationHelper.GetConfiguration();
+        var configuration = ConfigurationHelper.GetConfiguration(Directory.GetCurrentDirectory());
 
         // Create and bind FileLoggerOptions
         var fileLoggerOptions = new NReco.Logging.File.FileLoggerOptions();
@@ -43,7 +43,6 @@ public static class Startup
         {
             ConfigurationHelper.ConfigureDbContextOptions(options, connectionString);
         });
-
 
         // Register your services
         services.AddTransient<GameEngine>();
