@@ -14,9 +14,9 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="6.0.0" />
-    <PackageReference Include="NReco.Logging.File" Version="1.2.1" />
+    <PackageReference Include="NUnitLite" Version="4.3.2" />
   </ItemGroup>
 
   <ItemGroup>
@@ -39,6 +39,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ConsoleRpg.Shared\ConsoleRpgShared.csproj" />
     <ProjectReference Include="..\ConsoleRpgEntities\ConsoleRpgEntities.csproj" />
   </ItemGroup>
   

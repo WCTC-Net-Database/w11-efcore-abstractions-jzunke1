@@ -26,6 +26,20 @@ namespace ConsoleRpgEntities.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Armors",
+                columns: table => new
+                {
+                    ArmorId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ArmorName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DefensePower = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Armors", x => x.ArmorId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Monsters",
                 columns: table => new
                 {
@@ -43,6 +57,44 @@ namespace ConsoleRpgEntities.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Weapons",
+                columns: table => new
+                {
+                    WeaponId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    WeaponName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AttackPower = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Weapons", x => x.WeaponId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Equipment",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    WeaponId = table.Column<int>(type: "int", nullable: true),
+                    ArmorId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Equipment", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Equipment_Armors_ArmorId",
+                        column: x => x.ArmorId,
+                        principalTable: "Armors",
+                        principalColumn: "ArmorId");
+                    table.ForeignKey(
+                        name: "FK_Equipment_Weapons_WeaponId",
+                        column: x => x.WeaponId,
+                        principalTable: "Weapons",
+                        principalColumn: "WeaponId");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Players",
                 columns: table => new
                 {
@@ -50,11 +102,18 @@ namespace ConsoleRpgEntities.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Experience = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Health = table.Column<int>(type: "int", nullable: false)
+                    Health = table.Column<int>(type: "int", nullable: false),
+                    EquipmentId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Players", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Players_Equipment_EquipmentId",
+                        column: x => x.EquipmentId,
+                        principalTable: "Equipment",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -82,9 +141,25 @@ namespace ConsoleRpgEntities.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Equipment_ArmorId",
+                table: "Equipment",
+                column: "ArmorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Equipment_WeaponId",
+                table: "Equipment",
+                column: "WeaponId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PlayerAbilities_PlayersId",
                 table: "PlayerAbilities",
                 column: "PlayersId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Players_EquipmentId",
+                table: "Players",
+                column: "EquipmentId",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -100,6 +175,15 @@ namespace ConsoleRpgEntities.Migrations
 
             migrationBuilder.DropTable(
                 name: "Players");
+
+            migrationBuilder.DropTable(
+                name: "Equipment");
+
+            migrationBuilder.DropTable(
+                name: "Armors");
+
+            migrationBuilder.DropTable(
+                name: "Weapons");
         }
     }
 }

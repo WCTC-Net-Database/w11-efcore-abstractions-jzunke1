@@ -2,7 +2,9 @@
 using ConsoleRpgEntities.Models.Characters;
 using ConsoleRpgEntities.Models.Characters.Monsters;
 using ConsoleRpgEntities.Models.Equipment;
+using ConsoleRpgEntities.Models.Rooms;
 using Microsoft.EntityFrameworkCore;
+
 
 namespace ConsoleRpgEntities.Data
 {
@@ -14,6 +16,7 @@ namespace ConsoleRpgEntities.Data
         public DbSet<Equipment> Equipment { get; set; } = null!;
         public DbSet<Weapon> Weapons { get; set; } = null!;
         public DbSet<Armor> Armors { get; set; } = null!;
+        public DbSet<Room> Rooms { get; set; } = null!;
 
         public GameContext(DbContextOptions<GameContext> options) : base(options)
         {
@@ -21,6 +24,15 @@ namespace ConsoleRpgEntities.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Player>().Ignore(p => p.CurrentRoom);
+            modelBuilder.Entity<Monster>().Ignore(m => m.CurrentRoom);
+
+            modelBuilder.Entity<Room>().Ignore(r => r.North);
+            modelBuilder.Entity<Room>().Ignore(r => r.South);
+            modelBuilder.Entity<Room>().Ignore(r => r.East);
+            modelBuilder.Entity<Room>().Ignore(r => r.West);
+
+
             // Configure one-to-one relationship between Player and Equipment
             modelBuilder.Entity<Player>()
                 .HasOne(p => p.Equipment)
@@ -66,6 +78,48 @@ namespace ConsoleRpgEntities.Data
         {
             optionsBuilder.UseLazyLoadingProxies();
             base.OnConfiguring(optionsBuilder);
+        }
+
+        public void SeedDatabase()
+        {
+            if (Weapons.Any() || Armors.Any() || Abilities.Any() || Players.Any())
+            {
+                // Database already seeded
+                return;
+            }
+
+            // Add Weapons
+            var sword = new Weapon { WeaponName = "Sword", AttackPower = 15 };
+            var bow = new Weapon { WeaponName = "Bow", AttackPower = 10 };
+            var axe = new Weapon { WeaponName = "Axe", AttackPower = 20 };
+            Weapons.AddRange(sword, bow, axe);
+
+            // Add Armors
+            var leatherArmor = new Armor { ArmorName = "Leather Armor", DefensePower = 5 };
+            var chainmail = new Armor { ArmorName = "Chainmail", DefensePower = 10 };
+            Armors.AddRange(leatherArmor, chainmail);
+
+            // Add Players
+            var player1 = new Player
+            {
+                Name = "Archer",
+                Health = 100,
+                Experience = 0,
+                Equipment = new Equipment { Weapon = bow, Armor = leatherArmor },
+            };
+
+            var player2 = new Player
+            {
+                Name = "Warrior",
+                Health = 150,
+                Experience = 0,
+                Equipment = new Equipment { Weapon = sword, Armor = chainmail },
+            };
+
+            Players.AddRange(player1, player2);
+
+            // Save changes to the database
+            SaveChanges();
         }
 
 

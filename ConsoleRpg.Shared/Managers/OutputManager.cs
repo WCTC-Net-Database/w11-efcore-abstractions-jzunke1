@@ -1,4 +1,4 @@
-namespace ConsoleRpg.Helpers;
+namespace ConsoleRpgShared.Managers;
 
 public class OutputManager
 {

@@ -9,13 +9,10 @@
   <ItemGroup>
     <Compile Remove="Models\Abilities\MonsterAbilities\**" />
     <Compile Remove="Models\Characters\Npcs\**" />
-    <Compile Remove="Models\Rooms\**" />
     <EmbeddedResource Remove="Models\Abilities\MonsterAbilities\**" />
     <EmbeddedResource Remove="Models\Characters\Npcs\**" />
-    <EmbeddedResource Remove="Models\Rooms\**" />
     <None Remove="Models\Abilities\MonsterAbilities\**" />
     <None Remove="Models\Characters\Npcs\**" />
-    <None Remove="Models\Rooms\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -48,6 +45,11 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
+    <PackageReference Include="NUnitLite" Version="4.3.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ConsoleRpg.Shared\ConsoleRpgShared.csproj" />
   </ItemGroup>
 
   <ItemGroup>
